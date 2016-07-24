@@ -1,0 +1,452 @@
+
+
+@font-face {
+	font-family: "CormorantGaramond";
+	src: local("CormorantGaramond-Medium"),
+	url("assets/CormorantGaramond-Medium.ttf");
+}
+@font-face {
+	font-family: "CormorantGaramond";
+	src: local("CormorantGaramond-MediumItalic"),
+	url("assets/CormorantGaramond-MediumItalic.ttf");
+	font-style: italic;
+}
+@font-face {
+	font-family: "CormorantGaramond";
+	src: local("CormorantGaramond-Bold"),
+	url("assets/CormorantGaramond-Bold.ttf");
+	font-weight: bold;
+}
+@font-face {
+	font-family: "EBGaramondSC12-Regular";
+	src: local("EBGaramondSC12-Regular"),
+	url("assets/EBGaramondSC12-Regular.ttf");
+}
+
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+
+}
+header {
+	position: fixed;
+	height: 40px;
+	width: 100%;
+	/*background-color: #394f73;*/
+	background-image: linear-gradient(180deg, rgb(12, 5, 99), rgb(16, 5, 134));
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+	/*user-select: none;*/
+	/*-moz-user-select: none;*/
+	z-index: 3;
+	font-family: EBGaramondSC12-Regular, Times; /*EBGaramondSC12-Regular, */
+	/*font-family: CormorantGaramond, EBGaramondSC12-Regular, Times; !*EBGaramondSC12-Regular, *!*/
+	font-variant: small-caps;
+	font-weight: normal;
+	/*font-weight: bold;*/
+	line-height: 40px;
+	font-size: 24px;
+	color: white;
+	cursor: default;
+}
+header span {
+	display: inline-block;
+	/*to center text in header*/
+	/*EBGaramondSC12-Regular requires top+2 to adjust for high baseline*/
+	padding: 2px 25px 0 25px;
+	margin: 0;
+}
+header #about {
+	float: right;
+	padding-right: 10px;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#transcript,
+#tableOfContents,
+#videoBox,
+#aboutBox {
+	position: fixed;
+	top: 40px;
+	bottom: 0;
+}
+
+
+
+#transcript {
+	left: 0;
+	width: 55%;
+	/*width: 100%;*/
+	box-sizing: border-box;
+	/*oben, rechts, unten, links.*/
+	padding: 2% 4% 2% 2%;
+	color: #999;
+}
+#transcript, #aboutBox, #selectSourceDropdown li {
+	/*
+	Arial / Helvetica
+	Times New Roman / Times
+	Courier New / Courier 
+	Palatino
+	Garamond
+	Bookman
+	Avant Garde */
+	/*font-family: sans-serif;*/
+	font-family: CormorantGaramond, Times, serif;
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-rendering: optimizeLegibility;
+}
+#transcript, #aboutBox {
+	/*background-color: #fcfbf5;*/
+	/*does not scroll. would need wrapper inside.*/
+	/*background-image: url("cardboard_flat_030_200x200.png");*/
+	/*background-image: url("sandpaper_t_200x200.png");*/
+	overflow-y: scroll;
+}
+
+#transcript br+br {
+	display: block;
+	margin: 0.9em 0; /*x2*/
+}
+ul {
+	list-style-image: url(assets/ul-dot.png);
+}
+ul, ol {
+	margin: 0.8em 0;
+}
+ol li {
+	padding-bottom: 0.9em;
+}
+/* adds a proper padding-bottom, which does not otherwise work */
+#transcript:after, #aboutBox:after {
+	content: "";
+	display: block;
+	height: 3em;
+	width: 100%;
+}
+#transcript span[start] {
+	color: black;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: background-color ease-in-out 300ms;
+}
+#transcript b {
+	background-color: #fff9d9;
+}
+/*#aboutBox b {*/
+	/*background-color: rgba(255, 213, 0, 0.15);*/
+/*}*/
+#transcript i {
+	text-decoration: underline;
+}
+#transcript q {
+	color: #80b0ff;
+}
+a, a:active {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+#transcript q span[start], #aboutBox q, a {
+	color: #2f5aa3;
+}
+#transcript span.alignedGroup,
+#transcript span.alignedGroup b,
+#transcript span.alignedGroup i,
+#transcript .Gong.alignedGroup + .enso
+{
+	background-color: #ffe573;
+}
+#transcript span:hover,
+#transcript span.hovered
+{
+	box-shadow: 0 0 0 3px #ffd500;
+}
+#transcript span:hover,
+#transcript span:hover b,
+#transcript span:hover i,
+#transcript span.hovered,
+#transcript span.hovered b,
+#transcript span.hovered i
+{
+	background-color: rgba(255, 213, 0, 0.08);
+}
+#transcript span.selectedWord {
+	background-color: #ff6900;
+}
+#transcript span.active {
+	box-shadow: 0 0 0 3px #ffd500;
+}
+#transcript span.active,
+#transcript span.active b,
+#transcript span.active i {
+	background-color: #ffd500;
+	text-decoration: underline;
+}
+/* visually replace [Gong] by enso image and highlight it instead*/
+#transcript img.enso {
+	/*center*/
+	display: block;
+	margin: 3% auto;
+	width: 7%;
+	border-radius: 100%;
+	padding: 3px;
+}
+#transcript img.questionBubble {
+	/*center*/
+	display: block;
+	margin: 3% auto;
+	width: 10%;
+	opacity: 0.25;
+}
+#transcript .Gong,
+#transcript .Question {
+	visibility: hidden;
+}
+
+#transcript br + q {
+	display: block;
+	margin-left: 3%;
+	padding-left: 1.5%;
+	/*border-left: 4px solid #80b0ff;*/
+	border-left: 4px solid #a8caff;
+}
+
+
+
+
+
+#tableOfContents {
+	right: 46%;
+	margin: 0.5% 2px;
+	border: 1px solid rgb(230, 230, 230);
+	border-top: 3px solid rgb(230, 230, 230);
+	border-bottom: 3px solid rgb(230, 230, 230);
+	box-sizing: border-box;
+	width: 1.5%;
+	min-width: 15px;
+	/*max-width: 30px;*/
+	font-size: 40%;
+	background-color: rgb(230, 230, 230);
+	z-index: 2;
+	/*pointer-events: none;*/
+}
+#tableOfContents div {
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	/*background-color: rgba(0, 0, 0, 0.2);*/
+	background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
+}
+#tableOfContents #scrollBarHandle {
+	left: 0;
+	right: 0;
+	border: 1px solid #ffbf00;
+	background-color: rgba(255, 213, 0, 0.2);
+	background-image: none;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+	z-index: 2;
+}
+#tableOfContents #currentPosInScrollbar {
+	left: 0;
+	right: 0;
+	height: 1px;
+	background-color: #ff6900;
+	background-image: none;
+	z-index: 3;
+}
+#tableOfContents div.Q {
+	background-image: linear-gradient(180deg, rgba(0, 94, 255, 0.3), rgba(0, 94, 255, 0.5));
+}
+#tableOfContents div.LISTING {
+	left: 30%;
+	background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+#tableOfContents div.GONG {
+	display: block;
+	margin: 0 auto;
+	border-radius: 100%;
+	width: 3px;
+	height: 3px;
+	/*background-color: rgba(0, 0, 0, 0.5);*/
+}
+
+
+#resizer {
+	position: fixed;
+	top: -100%;
+	left: 55%;
+	bottom: -100%;
+	width: 0;
+	padding: 0 5px;
+	/*background-color: rgba(0, 0, 0, 0.2);*/
+	background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.31), transparent);
+	cursor: ew-resize;
+	z-index: 2;
+}
+.dragStyle {
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: pointer !important;
+}
+
+
+
+
+
+#videoBox {
+	right: 0%;
+	padding: 1.5%;
+	box-sizing: border-box;
+	width: 45%;
+	/*height: 95%;*/
+	background-color: #5e5e5e;
+	background-image: url(data:image/png;base64,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);
+	text-align: center;
+}
+#video {
+	/* if this is max-width, it does not scale up beyond native size */
+	width: 100%;
+	max-height: 100%;
+	/* wrong frame if width > height */
+	/*box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.2);*/
+}
+#selectSourceIcon {
+	position: relative;
+	display: inline-block;
+	/*oben, rechts, unten, links.*/
+	margin: -4px 0 0 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	z-index: 3;
+	width: 100%;
+}
+#selectSourceIcon img {
+	display: inline-block;
+	width: 15px;
+	padding: 3px;
+	opacity: 0.15;
+	border-radius: 100%;
+}
+#selectSourceIcon ul {
+	position: absolute;
+	left: 50%;
+	/*-webkit-transform: translateX(-50%);*/
+	transform: translateX(-50%);
+	padding: 0;
+	margin: 0;
+	bottom: 100%;
+	display: none;
+}
+#selectSourceIcon:hover ul {
+	display: block;
+}
+#selectSourceIcon:hover img {
+	background-color: rgba(255, 255, 255, 0.2);
+	opacity: 0.5;
+}
+#selectSourceDropdown li {
+	display: block;
+	background-color: rgba(255, 255, 255, 0.6);
+	cursor: pointer;
+	color: black;
+	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5); /* horizontal, vertical, blur, color */
+	padding: 3% 6%;
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
+}
+#selectSourceDropdown li:hover {
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4) inset;
+}
+#selectSourceDropdown li.current {
+	background-color: rgba(168, 202, 255, 0.8);
+}
+
+
+#aboutBox {
+	/* for it to be possible to hover the aboutBox by touching the browser edge
+		a bug in firefox triggers mouseleave on the div if the mouse touches the browser edge. not in chrome
+	*/
+	left: 99.9%;
+	width: 40%;
+	padding: 2%;
+	box-sizing: border-box;
+	background-color: #f6f6f6;
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.4);
+	/*background-image: url(workbench/sandpaper_t_200x200.png);*/
+}
+#aboutBox h3 {
+	/*oben, rechts, unten, links.*/
+	margin: 1.7em 0 0.7em 0;
+}
+#aboutBox p {
+	margin: 0.7em 0;
+}
+
+/* is created dynamically as needed */
+#vis {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	/*padding-top: 15px;*/
+	width: 100%;
+	height: 15%;
+	border: 1px solid blue;
+	z-index: 4;
+}
+#vis svg {
+	background-color: grey;
+}
+#vis svg #svgPageRect {
+	fill: white;
+}
+#vis svg .wd {
+	/*fill: rgba(230, 209, 106, 0.26);*/
+	/*this is not working in firefox. must be set inline.
+	http://stackoverflow.com/questions/15123953/svg-fill-url-behaving-strangely-in-firefox */
+	/*fill: url("#wordGradient");*/
+}
+#vis svg .wd.hovered { /*#vis svg .wd:hover disable on drag*/
+	fill: rgba(255, 217, 0, 0.8);
+	/*fill: rgba(255, 227, 56, 0.8);*/
+	/*fill: #f5d937;*/
+	/*fill: #7a6c1c;*/
+}
+#vis svg .wd.selectedWord {
+	fill: rgba(202, 255, 2, 0.7);
+}
+#vis svg .audioChart {
+	fill: rgba(0, 0, 0, 0.2);
+	stroke: rgba(0, 0, 0, 1);
+	stroke-width: 0.02;
+}
+#vis svg #position {
+	fill: none;
+	stroke: rgba(255, 0, 0, 0.8);
+	/* 1px = 1sec */
+	stroke-width: 0.1;
+	/*shape-rendering: crispEdges;*/
+}
+
+
+
+#errorMessage {
+	display: none;
+}
+#errorMessage, noscript {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	padding: 1% 2%;
+	width: 100%;
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+	background-color: darkred;
+	color: white;
+	z-index: 4;
+}
