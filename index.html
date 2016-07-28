@@ -5,7 +5,7 @@
 	<title>Thich Nhat Hanh: Mindfulness as a Foundation for Health</title>
 	<link rel="stylesheet" type="text/css" href="main.css"/>
 	<link rel="icon" type="image/png" href="assets/Enso.svg.png">
-	<script src="assets/d3.js" async></script>
+	<!--<script src="assets/d3.js" async></script>-->
 	<!-- deferred scripts are guarenteed to execute in the order that they appear in the document -->
 	<script src="main.js" defer></script>
 	<script src="errorHandling.js" defer></script>
@@ -27,13 +27,8 @@ Use as a scrollbar.">
 	
 	<div id="videoBox">
 		<video id="video" controls="" preload="auto">
-			<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats#Browser_compatibility -->
-			<source src="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only, VP8, Q50.webm" type='video/webm; codecs="vp8, vorbis"' title="275MiB webm, VP8" extendedTitle='<b>275</b> MiB webm, VP8 @50, Vorbis @112k'>
-			<!-- VP9 main problem is bad seek performance -->
-			<source src="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only, VP9, Q40.webm" type='video/webm; codecs="vp9, opus"' title="374MiB webm, VP9" extendedTitle='<b>191</b> MiB webm, VP9 @50, Opus @64k'>
-			<source src="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only, VP9, Q50.webm" type='video/webm; codecs="vp9, opus"' title="191MiB webm, VP9" extendedTitle='<b>374</b> MiB webm, VP9 @40, Opus @64k'>
-			<source src="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only, VP9, Q63, 32kOpus.webm" type='video/webm; codecs="vp9, opus"' title="69MiB webm, VP9" extendedTitle='<b>69</b> MiB webm, VP9 @63, Opus @32k'>
-			<track kind="captions" label="English Transcription" src="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only.vtt" srclang="en">
+			<!-- sources are loaded from JS -->
+			<track kind="captions" label="English Transcription" src="uploads/TNH, Talk Only.vtt" srclang="en">
 		</video>
 		<ul id="selectSourceIcon">
 			<img src="assets/gear.svg">
@@ -60,9 +55,9 @@ Use as a scrollbar.">
 	<h3>Sources</h3>
 	The talk presented here was cut from the <a href="https://www.youtube.com/watch?v=Ijnt-eXukwk">source</a>, starting from 58:14 to 3:11:17, and cropped to 1:1 aspect ratio:
 	<ul id="downloadsList">
-		<li>Subtitles: <a href="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only.srt" download>SubRip</a>, <a href="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health, Talk Only.vtt" download>WebVTT</a></li>
-		<li>Subtitles for the uncut source: <a href="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health.srt" download>SubRip</a>, <a href="media/Thich Nhat Hanh - Mindfulness as a Foundation for Health.vtt" download>WebVTT</a></li>
-		<li>Transcript: <a href="uploads/transcriptFlat.xml" download>xml</a>, <a href="uploads/transcriptFlatB4.txt">txt</a></li>
+		<li>Subtitles: <a href="uploads/TNH, Talk Only.srt" download>SubRip</a>, <a href="uploads/TNH, Talk Only.vtt" download>WebVTT</a></li>
+		<li>Subtitles for the uncut source: <a href="uploads/TNH.srt" download>SubRip</a>, <a href="uploads/TNH.vtt" download>WebVTT</a></li>
+		<li>Transcript: <a href="uploads/transcriptFlat.xml" download>xml</a>, <a href="uploads/transcriptFlat.txt">txt</a></li>
 	</ul>
 	I release the transcript and subtitles as part of the <a href="https://creativecommons.org/licenses/by-sa/3.0/">creative commons</a>, and the <a href="https://github.com/rbyte/thayTalk">source code</a> as free software.
 	<p>I am happy to receive your criticism and suggestions.</p>

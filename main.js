@@ -17,7 +17,7 @@ const yPrecision = 4
 // The number of lines in any subtitle must be limited to two.
 const preferedCharCount = 40
 const preferedCharCountMax = 60
-var inputIsAlreadyFlat = true
+var inputIsAlreadyFlat = false
 const loadAmplitudeChart = false
 // may be VERY memory intense
 const computeAmplitudeChartOn = false
@@ -83,6 +83,53 @@ var viewBox = {
 			viewBox.transition()
 		}
 	}
+}
+
+var mirrors = ["http://mgrf.de/thayTalk/"]
+var videoSources = [
+	newSource("webm", "480", "154", "vp8", "50", "vorbis", "64k"),
+	newSource("webm", "720", "275", "vp8", "50", "vorbis", "112k"),
+	newSource("webm", "720", "374", "vp9", "40", "opus", "64k"),
+	newSource("webm", "720", "191", "vp9", "50", "opus", "64k"),
+	newSource("webm", "720", "69", "vp9", "63", "opus", "32k")
+]
+
+function newSource(ext, px, sizeMiB, videoCodec, videoQ, audio, audioQ) { return {
+	ext: ext,
+	sizeMiB: sizeMiB,
+	px: px,
+	video: videoCodec,
+	videoQ: videoQ,
+	audio: audio,
+	audioQ: audioQ,
+	baseURL: "./",
+	getURL: function() {
+		return this.baseURL + "media/TNH, Talk Only, " + this.px + "p, " + this.video + "_" + this.videoQ + ", " + this.audio + "_" + this.audioQ + "." + this.ext
+	},
+	getType: function() {
+		return "video/"+this.ext+"; codecs=\""+this.video+", "+this.audio+"\""
+	},
+	getTitle: function() {
+		return this.sizeMiB+"MiB "+this.ext+", "+this.video
+	},
+	getTitleExtended: function() {
+		return "<b>" + this.sizeMiB + "</b> MiB, " + this.px + "p, " + this.video + " @" + this.videoQ + ", " + this.audio + " @" + this.audioQ
+	},
+	addToVideo: function(onerror) {
+		let node = document.createElement("source")
+		node.setAttribute("src", this.getURL())
+		node.setAttribute("type", this.getType())
+		node.mySource = this
+		node.onerror = function(e) {
+			return onerror(e, node)
+		}
+		video.appendChild(node)
+		return node
+	},
+	setBaseURL: function(baseURL) {
+		this.baseURL = baseURL
+	}
+}
 }
 
 function XHR(url, callback) {
@@ -1425,6 +1472,15 @@ function handleError(e) {
 		throw e
 }
 
+function getCurrentVideoSource() {
+	var result = undefined
+	nodeListForEach(video.querySelectorAll("source"), function(source) {
+		if (video.currentSrc === source.src)
+			result = source
+	})
+	return result
+}
+
 function afterVideoMetadataLoaded() {
 	if (false)
 		convertLineBreakesInTranscriptTextToBR()
@@ -1592,20 +1648,24 @@ function afterVideoMetadataLoaded() {
 		resetCurrentWord()
 	})
 	
-	nodeListForEach(video.querySelectorAll("source"), function(source) {
+	for (let source of videoSources) {
 		let li = selectSourceDropdown.appendChild(document.createElement("li"))
 		// let li = selectSourceDropdown.insertBefore(document.createElement("li"), selectSourceDropdown.firstChild)
-		li.appendChild(document.createTextNode(source.getAttribute("title")))
-		li.refSource = source.getAttribute("src")
-		if (source === video.querySelector("source") /*current source*/) {
+		li.appendChild(document.createTextNode(source.getTitle()))
+		if (source === getCurrentVideoSource().mySource) {
 			li.classList.add("current")
 		}
-		
+		li.mySource = source
 		li.onclick = function(e) {
 			let {start, end} = getStartAndEnd(currentWord)
 			video.pause()
-			let firstSource = video.querySelector("source")
-			firstSource.setAttribute("src", this.refSource)
+			nodeListForEach(video.querySelectorAll("source"), function(source) {
+				video.removeChild(source)
+			})
+			
+			this.mySource.addToVideo(/*onerror: */function(e, node) {
+				// TODO
+			})
 			nodeListForEach(selectSourceDropdown.querySelectorAll("li"), function(li) {
 				li.classList.remove("current")
 			})
@@ -1621,10 +1681,10 @@ function afterVideoMetadataLoaded() {
 		
 		let li2 = downloadsList.insertBefore(document.createElement("li"), downloadsList.firstChild)
 		let a = li2.appendChild(document.createElement("a"))
-		a.setAttribute("href", source.getAttribute("src"))
+		a.setAttribute("href", source.getURL())
 		a.setAttribute("download", true)
-		a.innerHTML = source.getAttribute("extendedTitle")
-	})
+		a.innerHTML = source.getTitleExtended()
+	}
 	
 	window.requestAnimationFrame(updateLoop)
 	
@@ -1632,7 +1692,7 @@ function afterVideoMetadataLoaded() {
 }
 
 var cautiousAfterVideoMetadataLoaded = function (e) {
-	console.log("video metadata loaded")
+	console.log("video metadata loaded", video.networkState)
 	try {
 		afterVideoMetadataLoaded()
 	} catch (e) {
@@ -1640,13 +1700,32 @@ var cautiousAfterVideoMetadataLoaded = function (e) {
 	}
 }
 
+
 function afterTranscriptLoaded() {
 	console.log("transcript loaded")
-	if (video.readyState > 0) {
-		cautiousAfterVideoMetadataLoaded()
-	} else {
-		video.onloadedmetadata = cautiousAfterVideoMetadataLoaded
+	video.onloadedmetadata = cautiousAfterVideoMetadataLoaded
+	
+	let mirrorIdx = 0
+	let numberOfSourcesThatFailedLoading = 0
+	let onerror = function(e, node) {
+		console.log("failed loading: ", node.mySource.getTitle())
+		numberOfSourcesThatFailedLoading++
+		if (numberOfSourcesThatFailedLoading === videoSources.length) {
+			if (mirrorIdx < mirrors.length) {
+				console.log("trying mirror", mirrors[mirrorIdx])
+				nodeListForEach(video.querySelectorAll("source"), src => video.removeChild(src))
+				videoSources.forEach(src => src.setBaseURL(mirrors[mirrorIdx]))
+				videoSources.forEach(src => src.addToVideo(onerror))
+				mirrorIdx++
+				numberOfSourcesThatFailedLoading = 0
+				video.load()
+			} else {
+				console.log("could not load any video source!")
+			}
+		}
 	}
+	videoSources.forEach(src => src.addToVideo(onerror))
+	video.load()
 }
 
 function init() {
