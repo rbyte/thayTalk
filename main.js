@@ -17,7 +17,7 @@ const yPrecision = 4
 // The number of lines in any subtitle must be limited to two.
 const preferedCharCount = 40
 const preferedCharCountMax = 60
-var inputIsAlreadyFlat = false
+var inputIsAlreadyFlat = true
 const loadAmplitudeChart = false
 // may be VERY memory intense
 const computeAmplitudeChartOn = false
@@ -87,8 +87,8 @@ var viewBox = {
 
 var mirrors = ["http://mgrf.de/thayTalk/"]
 var videoSources = [
-	newSource("webm", "480", "154", "vp8", "50", "vorbis", "64k"),
 	newSource("webm", "720", "275", "vp8", "50", "vorbis", "112k"),
+	newSource("webm", "480", "154", "vp8", "50", "vorbis", "64k"),
 	newSource("webm", "720", "374", "vp9", "40", "opus", "64k"),
 	newSource("webm", "720", "191", "vp9", "50", "opus", "64k"),
 	newSource("webm", "720", "69", "vp9", "63", "opus", "32k")
@@ -110,7 +110,7 @@ function newSource(ext, px, sizeMiB, videoCodec, videoQ, audio, audioQ) { return
 		return "video/"+this.ext+"; codecs=\""+this.video+", "+this.audio+"\""
 	},
 	getTitle: function() {
-		return this.sizeMiB+"MiB "+this.ext+", "+this.video
+		return this.sizeMiB+"MiB "+this.ext+", "+this.px+"p, "+this.video
 	},
 	getTitleExtended: function() {
 		return "<b>" + this.sizeMiB + "</b> MiB, " + this.px + "p, " + this.video + " @" + this.videoQ + ", " + this.audio + " @" + this.audioQ
