@@ -742,7 +742,7 @@ function transcriptToXMLstring() {
 	return transcript.outerHTML
 	// insert newline after <br> to improve readability of raw xml
 	// the dot does not match a newline, which is how we avoid inserting another newline, if one already exists
-		.replace(/<br>(.)/g, (match, dot) => "<br>\n" + dot)
+		.replace(/<br\/>(.)/g, (match, dot) => "<br/>\n" + dot)
 		// those are generated automatically during editing
 		.replace(/&nbsp;/g, " ")
 }
@@ -961,7 +961,11 @@ function flattenTranscriptToWordGroups() {
 }
 
 function loadTranscript(callback) {
-	XHR(inputIsAlreadyFlat ? "uploads/transcriptFlat.xml" : "uploads/transcript.xml", function (xhr) {
+	var fileToLoad = inputIsAlreadyFlat
+		? "uploads/transcriptFlat.xml"
+		: "uploads/transcript.xml"
+	
+	XHR(fileToLoad, function (xhr) {
 		if (xhr.status === 404) {
 			// fall back
 			getJson('media/align.json', function (ret) {
@@ -1662,7 +1666,6 @@ function afterVideoMetadataLoaded() {
 			nodeListForEach(video.querySelectorAll("source"), function(source) {
 				video.removeChild(source)
 			})
-			
 			this.mySource.addToVideo(/*onerror: */function(e, node) {
 				// TODO
 			})
@@ -1731,6 +1734,9 @@ function afterTranscriptLoaded() {
 function init() {
 	try {
 		console.assert(video && transcript)
+		
+		if (window.location.hash.match(/edit/))
+			inputIsAlreadyFlat = false
 		
 		if (transcript.hasChildNodes() && inputIsAlreadyFlat) {
 			console.log("transcript is inlined!")
