@@ -1165,7 +1165,9 @@ var afterChartWasDrawn = function () {
 	}
 	currentWord = transcript.firstChild
 	findCurrentWord()
-	currentWord.scrollIntoView() // without transition!
+	console.log(video.currentTime)
+	if (video.currentTime !== 0)
+		currentWord.scrollIntoView() // without transition!
 	
 	if (loadAmplitudeChart) {
 		viewBox.autoPan()
