@@ -729,7 +729,7 @@ function render(alignJson) {
 	currentOffset = alignTranscript.length
 }
 
-function clearTranscriptOfStyling() {
+function clearTranscriptOfDynamicStyling() {
 	unsetSelectedWord()
 	unsetHoveredWord()
 	unsetCurrentWord()
@@ -738,17 +738,18 @@ function clearTranscriptOfStyling() {
 
 function transcriptToXMLstring() {
 	removeTranscriptStyling()
-	
 	return transcript.outerHTML
+	// valid xml requires closing br, but injection into html always removes it
+		.replace(/<br>/g, "<br/>")
 	// insert newline after <br> to improve readability of raw xml
 	// the dot does not match a newline, which is how we avoid inserting another newline, if one already exists
-		.replace(/<br\/>(.)/g, (match, dot) => "<br/>\n" + dot)
+		.replace(/<br\/?>(.)/g, (match, dot) => "<br/>\n" + dot)
 		// those are generated automatically during editing
 		.replace(/&nbsp;/g, " ")
 }
 
 function uploadTranscript() {
-	clearTranscriptOfStyling()
+	clearTranscriptOfDynamicStyling()
 	
 	var xhr = new XMLHttpRequest()
 	xhr.onload = function (e) {
@@ -770,6 +771,10 @@ function uploadTranscript() {
 
 function downloadTranscript() {
 	download(transcriptToXMLstring(), "text/xml", "transcript.xml")
+}
+
+function openTranscriptAsPlainText() {
+	window.open("data:text/plain;charset=UTF-8," + encodeURIComponent(transcript.textContent), "transcript.txt")
 }
 
 function downloadPath() {
@@ -962,8 +967,8 @@ function flattenTranscriptToWordGroups() {
 
 function loadTranscript(callback) {
 	var fileToLoad = inputIsAlreadyFlat
-		? "uploads/transcriptFlat.xml"
-		: "uploads/transcript.xml"
+		? "generated/transcriptFlat.xml"
+		: "transcript.xml"
 	
 	XHR(fileToLoad, function (xhr) {
 		if (xhr.status === 404) {
@@ -1162,10 +1167,12 @@ var afterChartWasDrawn = function () {
 				video.currentTime = pos
 		} catch (e) {
 		}
+	} else {
+		// only show help text if not a returning user
+		transcript.setAttribute("title", "Click on any word to start playing from that position.")
 	}
 	currentWord = transcript.firstChild
 	findCurrentWord()
-	console.log(video.currentTime)
 	if (video.currentTime !== 0)
 		currentWord.scrollIntoView() // without transition!
 	
@@ -1327,6 +1334,7 @@ function updateScreenElemsSize() {
 }
 
 function removeTranscriptStyling() {
+	transcript.removeAttribute("title")
 	nodeListForEach(document.querySelectorAll(".enso, .questionBubble"), function (e) {
 		e.parentNode.removeChild(e)
 	})

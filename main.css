@@ -111,8 +111,10 @@ header #about {
 	/*background-image: url("sandpaper_t_200x200.png");*/
 	overflow-y: scroll;
 }
-#transcript:first-letter {
+#transcript::first-letter {
 	font-size: 5.4em;
+	/* this is required in chrome */
+	line-height: 1em;
 	font-family: "EBGaramond-Initials";
 	padding-right: 0.1em;
 	float: left;
