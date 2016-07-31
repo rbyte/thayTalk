@@ -2,24 +2,34 @@
 
 @font-face {
 	font-family: "CormorantGaramond";
-	src: local("CormorantGaramond-Medium"),
-	url("assets/CormorantGaramond-Medium.ttf");
+	src: 
+	local("CormorantGaramond-Medium"),
+	url("assets/Cormorant-Medium.woff2") format('woff2'),
+	url("assets/CormorantGaramond-Medium.ttf") format('truetype')
+	;
 }
 @font-face {
 	font-family: "CormorantGaramond";
-	src: local("CormorantGaramond-MediumItalic"),
-	url("assets/CormorantGaramond-MediumItalic.ttf");
+	src: 
+	local("CormorantGaramond-MediumItalic"),
+	url("assets/Cormorant-MediumItalic.woff2") format('woff2'),
+	url("assets/CormorantGaramond-MediumItalic.ttf") format('truetype')
+	;
 	font-style: italic;
 }
 @font-face {
 	font-family: "CormorantGaramond";
-	src: local("CormorantGaramond-Bold"),
-	url("assets/CormorantGaramond-Bold.ttf");
+	src: 
+	local("CormorantGaramond-Bold"),
+	url("assets/Cormorant-Bold.woff2") format('woff2'),
+	url("assets/CormorantGaramond-Bold.ttf") format('truetype')
+	;
 	font-weight: bold;
 }
 @font-face {
 	font-family: "EBGaramondSC12-Regular";
-	src: local("EBGaramondSC12-Regular"),
+	src:
+	local("EBGaramondSC12-Regular"),
 	url("assets/EBGaramondSC12-Regular.woff");
 }
 @font-face {
@@ -45,8 +55,7 @@ header {
 	/*user-select: none;*/
 	/*-moz-user-select: none;*/
 	z-index: 3;
-	font-family: EBGaramondSC12-Regular, Times; /*EBGaramondSC12-Regular, */
-	/*font-family: CormorantGaramond, EBGaramondSC12-Regular, Times; !*EBGaramondSC12-Regular, *!*/
+	font-family: EBGaramondSC12-Regular, Times;
 	font-variant: small-caps;
 	font-weight: normal;
 	/*font-weight: bold;*/
@@ -100,7 +109,7 @@ header #about {
 	Avant Garde */
 	/*font-family: sans-serif;*/
 	font-family: CormorantGaramond, Times, serif;
-	font-size: 1.4em;
+	font-size: 1.5em;
 	line-height: 1.4em;
 	text-rendering: optimizeLegibility;
 }
