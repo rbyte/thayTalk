@@ -64,7 +64,7 @@ Use as a scrollbar.">
 	
 	<h3>Acknowledgements</h3>
 	This project was inspired by Robert Ochshorn's <a href="https://github.com/lowerquality/gentle">Gentle</a>, a forced-aligner built on <a href="https://github.com/kaldi-asr/kaldi">Kaldi</a>.
-	<p>Fonts used are <a href="https://github.com/CatharsisFonts/Cormorant">Cormorant Garamond</a> & <a href="http://www.georgduffner.at/ebgaramond/">EB Garamond</a>.</p>
+	<p>Fonts used are <a href="https://github.com/CatharsisFonts/Cormorant">Cormorant Garamond</a>, <a href="http://www.georgduffner.at/ebgaramond/">EB Garamond</a> & <a href="http://www.fonts2u.com/regal.font">Regal</a>.</p>
 	<p>I would also like to thank the <a href="http://plumvillage.org/">monastic community</a> and Google for preparing and releasing this great talk.</p>
 </div>
 	

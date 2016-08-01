@@ -121,13 +121,17 @@ header #about {
 	overflow-y: scroll;
 }
 #transcript::first-letter {
-	font-size: 5.4em;
+	font-size: 8.2em;
 	/* this is required in chrome */
-	line-height: 1em;
-	font-family: "EBGaramond-Initials";
-	padding-right: 0.1em;
+	line-height: 0.65em;
+	/*font-family: "EBGaramond-Initials";*/
+	/*padding-right: 0.1em;*/
+	padding: 0.072em;
+	/*oben, rechts, unten, links.*/
+	margin: 0.02em 0.05em 0 -0.03em;
 	float: left;
 	color: rgb(99, 99, 99);
+	background: no-repeat center/100% url(assets/Cormorant-Medium_D_Ornament.svg);
 }
 #transcript br+br {
 	display: block;

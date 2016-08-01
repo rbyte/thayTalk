@@ -1700,7 +1700,6 @@ function afterVideoMetadataLoaded() {
 	}
 	
 	window.requestAnimationFrame(updateLoop)
-	
 	console.log("all done")
 }
 
