@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="main.css"/>
 	<link rel="icon" type="image/png" href="assets/Enso.svg.png">
 	<!-- deferred scripts are guarenteed to execute in the order that they appear in the document -->
+	<!--<script src="assets/d3.v3.min.js" defer></script>-->
 	<script src="main.js" defer></script>
 	<script src="errorHandling.js" defer></script>
 </head>

@@ -18,6 +18,7 @@ const yPrecision = 4
 const preferedCharCount = 40
 const preferedCharCountMax = 60
 var inputIsAlreadyFlat = true
+// requires d3
 const loadAmplitudeChart = false
 // may be VERY memory intense
 const computeAmplitudeChartOn = false
